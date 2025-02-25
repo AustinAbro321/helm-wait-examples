@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: "{{ .Release.Name }}"
 spec:
-  terminationGracePeriodSeconds: 10
+  terminationGracePeriodSeconds: 5
   containers:
     - name: busybox
       image: busybox
@@ -11,4 +11,4 @@ spec:
       lifecycle:
         preStop:
           exec:
-            command: ["sleep", "10"]
+            command: ["sleep", "5"]

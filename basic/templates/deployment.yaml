@@ -32,11 +32,6 @@ spec:
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          terminationGracePeriodSeconds: 3
-          lifecycle:
-            preStop:
-              exec:
-                command: ["sleep", "3"]
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.securityContext }}
