@@ -24,5 +24,5 @@ spec:
       restartPolicy: Never
       containers:
       - name: post-install-job
-        image: "alpine:3.3"
+        image: "busybox:latest"
         command: ["/bin/sleep","{{ default "5" .Values.sleepyTime }}"]

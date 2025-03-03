@@ -5,6 +5,7 @@ kubectl delete ns watcher --ignore-not-found=true
 helm_path='../helm/bin/helm'
 
 #### ---  Basic Wait example ---- ####
+echo "Testing basic wait examples"
 $helm_path install basic-legacy basic/ --wait=legacy -n legacy --create-namespace
 kubectl wait --for=condition=available deployment/basic-legacy-podinfo -n legacy --timeout=1s
 
@@ -12,6 +13,8 @@ $helm_path install basic-watcher basic/ --wait=watcher -n watcher --create-names
 kubectl wait --for=condition=available deployment/basic-watcher-podinfo -n watcher --timeout=1s
 
 #### ---  Helm Wait with custom resources ---- ####
+
+echo "Testing custom resources wait examples"
 
 # Helm waits for custom resources to be ready when using the watcher, but not when using the legacy wait
 kubectl apply -f https://github.com/fluxcd/flux2/releases/download/v2.4.0/install.yaml
@@ -28,6 +31,8 @@ kubectl wait --for=condition=available deployment/podinfo -n watcher --timeout=1
 
 
 ## ------ Helm job  Wait   ------- ####
+
+echo "Testing Helm job wait examples"
 
 # Without `--wait-for-jobs` the legacy waiter will do no waiting, the watcher will wait for the job to be "ready" which in this case is just created
 $helm_path install job-legacy job/ --wait=legacy -n legacy --create-namespace --set jobName=no-wait-for-job
@@ -54,12 +59,16 @@ kubectl wait --for=condition=complete job/wait-for-job -n watcher --timeout=1s
 
 ## ------ Helm Hook Wait   ------- ####
 
+echo "Testing Helm hook wait examples"
+
 # Hooks should wait even when there is no wait flag used / wait is false
 
 $helm_path install watcher-hook hooks/ --wait=false -n watcher --create-namespace
 kubectl wait --for=condition=complete job/watcher-hook -n watcher --timeout=1s
 
 ### ------ Helm Uninstall Wait   ------- ####
+
+echo "testing uninstall"
 
 $helm_path install delete-legacy wait_for_delete/ --wait=legacy -n legacy --create-namespace
 $helm_path uninstall delete-legacy --wait=legacy -n legacy 
